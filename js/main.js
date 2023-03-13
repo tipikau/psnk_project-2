@@ -1,12 +1,24 @@
 let eventBus = new Vue()
+
 Vue.component('cols', {
     template: `
     <div id='cols'>
     <newcard></newcard>
     <div class="col-wrapper">
-    <col1 :column="column1"></col1>
-    <col2 :column="column2"></col2>
-    <col3 :column="column3"></col3>
+    <h2 class="error" v-for="error in errors">{{error}}</h2>
+    <newcard></newcard>
+    <div class="cols-wrapper">
+        <div class="col">
+            <ul>
+                <li class="cards" style="background-color: #e79ba2"" v-for="card in column1"><p class="p-title"<>{{card.title}}</p>
+                    <ul>
+                        <li class="tasks" v-for="t in card.subtasks" v-if="t.title !=null">
+                        <input @click="newStatus1(card, t)"
+                        class="checkbox" type="checkbox"
+                        :disabled="t.completed"
+                        <p class="{completed: t.completed}">{{t.title}}</p>
+    
+    
     `,
     data() {
         return {
