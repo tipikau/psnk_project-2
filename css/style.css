@@ -4,108 +4,97 @@
 }
 
 body{
-    background-color: #d1e5c8;
+    background-color: rgb(231,231,231);
     font-family: "Nirmala UI";
-    color: #3b4806;
-
+    color: green;
 }
-h1,h2{
+
+h1{
     text-align: center;
 }
-
-.create-form{
+.addform{
     display: flex;
     flex-direction: column;
-    align-items: center;
-    font-size: 30px;
+    gap: 15px;
+    font-size: 28px;
 }
-
-.create{
-    display: flex;
-    flex-direction: column
-input{
-    border: 0 solid black;
-    background-color: aliceblue;
-    margin: 5px;
-    padding: 5px;
-    border-radius: 10px;
-    width: 200px;
-}
-button{
-    border: 0 solid black;
-    background-color: aliceblue;
-    margin-top: 5px;
-    padding: 5px;
-    border-radius: 10px;
-    width: 100px;
-    cursor: pointer;
-}
-
-.notes {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    margin: 0 auto;
-}
-.mote-wrap{
-    display: flex;
-    justify-content: space-around;
-    margin: 30px auto;
-    width: 1200px;
-    min-height: 550px;
-    background-color: antiquewhite;
-    border-radius: 10px;
-}
-.note{
-    background-color: aliceblue;
-    width: 300px;
-    margin: 20px 0 20px 0;
-    text-align: center;
-    border-radius: 10px;
-    padding-bottom: 20px;
-
-}
-ul{
-    margin: 10px auto;
-    padding: 0;
-    width: 200px;
-    border-radius: 10px;
-    list-style-type: none;
-    background-color: antiquewhite;
-}
-.note-name{
-    margin: 0 auto 20px auto;
-    padding: 10px 0 10px 0;
-}
-
 .tasks{
     display: flex;
     list-style-type: disc;
+    margin: 0;
     align-items: center;
     justify-content: center;
-    margin: -10px;
+    margin-bottom: 15px;
 }
 
-.tasks-2{
-    display: flex;
-    list-style-type: disc;
-    align-items: center;
-    flex-direction: row-reverse;
-    justify-content: center;
-    margin: -10px;
-}
-
-.checkbox{
-    opacity: 0;
-    margin-left: -118px;
-    margin-right: -88px;
-}
-
-.notes-li{
-    background-color: aliceblue;
-}
-
-.textDecoration{
+.completed {
     text-decoration: line-through;
 }
 
+.cards {
+    list-style-type: none;
+    font-size: 15px;
+    width: 95%;
+    background-color: green;
+    border-radius: 30px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin: 10px;
+
+}
+
+
+ul{
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+p {
+   text-wrap: normal;
+    margin: 0;
+}
+input {
+    padding: 10px 15px;
+    border-radius: 10px;
+    border: none;
+    border: 1px solid #000;
+}
+
+button {
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    cursor: pointer;
+}
+#cols {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.col {
+    width: 30%;
+    text-align: center;
+    background-color: white;
+    border-radius: 30px;
+}
+
+.col-wrapper {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 15px;
+    flex-direction: column;
+}
+
+.cols-wrapper {
+    width: 100%;
+    display: flex;
+    flex-grow: 1;
+    min-height: 680px;
+    justify-content: center;
+    gap: 15px;
+}

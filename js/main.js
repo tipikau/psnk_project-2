@@ -60,6 +60,16 @@ Vue.component('cols', {
             errors: [],
         }
     },
+    mounted() {
+        event.Bus.$on('card-submitted', card =>{
+          this.errors = []
+          if (this.column.length < 3) {
+              this.column1.push(card)
+          }else{
+              this.errors.push("Вы не можете добавить новую заметку")
+          }
+        })
+    }
 
 })
 
