@@ -98,3 +98,12 @@ button {
     justify-content: center;
     gap: 15px;
 }
+.flex-revers {
+    display: flex;
+    flex-direction: column-reverse;
+
+}
+
+.p-title {
+    font-size:large;
+}
