@@ -63,16 +63,18 @@ Vue.component('cols', {
             errors: [],
         }
     },
+    mounted() {
+
+        eventBus.$on('card-submitted', card =>{
+              this.errors = []
+          if (this.column1.length < 3) {
+              this.column1.push(card)
+          }else{
+              this.errors.push("Вы не можете добавить новую заметку")
+          }
+        })
+    },
     methods: {
-        localsaveFirstcolumn(){
-            localStorage.setItem('column1', JSON.stringify(this.column1));
-        },
-        localsaveSecondcolumn(){
-            localStorage.setItem('column2', JSON.stringify(this.column3));
-        },
-        localsaveThirdcolumn(){
-            localStorage.setItem('column3', JSON.stringify(this.column3));
-        },
         newStatus1(card, t) {
             t.completed = true
             let count = 0
@@ -102,6 +104,8 @@ Vue.component('cols', {
                 }
             }
         },
+
+
         newStatus2(card, t) {
             t.completed = true
             let count = 0
@@ -132,20 +136,6 @@ Vue.component('cols', {
                 }
             }
         }
-    },
-    mounted() {
-        this.column1 = JSON.parse(localStorage.getitem('column1')) || [];
-        this.column2 = JSON.parse(localStorage.getitem('column2')) || [];
-        this.column3 = JSON.parse(localStorage.getitem('column3')) || [];
-
-        eventBus.$on('card-submitted', card =>{
-            this.errors = []
-            if (this.column1.length < 3) {
-                this.column1.push(card)
-            }else{
-                this.errors.push("Вы не можете добавить новую заметку")
-            }
-        })
     },
     computed: {
 
