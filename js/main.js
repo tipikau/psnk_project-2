@@ -78,17 +78,17 @@ Vue.component('cols', {
             let count = 0
             card.status = 0
             this.errors = []
-            for (let i = 0; i < 5; i++) {
+            for (let i = 0; i < 5; ++i) {
                 if (card.subtasks[i].title != null) {
                     count++;
                 }
             }
-            for (let i = 0; i < count; i++) {
+            for (let i = 0; i < count; ++i) {
                 if (card.subtasks[i].completed === true) {
                     card.status++
                 }
             }
-            if (card.status / count * 100 >= 50 && card.status / count * 100 < 100 && this.column2.length < 5) {
+            if (card.status /count * 100 >= 50 && this.column2.length < 5) {
                 this.column2.push(card)
                 this.column1.splice(this.column1.indexOf(card), 1)
             } else if (this.column2.length === 5) {
@@ -179,8 +179,8 @@ Vue.component('newcard',{
             <input required id="subtask1" v-model="subtask1" placeholder="Задача 1">
             <input required id="subtask2" v-model="subtask2" maxlength="30" placeholder="Задача 2">
             <input required id="subtask3" v-model="subtask3" maxlength="30" placeholder="Задача 3">
-            <input required id="subtask4" v-model="subtask4" maxlength="30" placeholder="Задача 4">
-            <input required id="subtask5" v-model="subtask5" maxlength="30" placeholder="Задача 5">
+            <input id="subtask4" v-model="subtask4" maxlength="30" placeholder="Задача 4">
+            <input id="subtask5" v-model="subtask5" maxlength="30" placeholder="Задача 5">
             <button type="submit">Добавить карточку</button>
     </form>
     `,
