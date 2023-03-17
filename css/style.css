@@ -1,24 +1,26 @@
-#app{
+#app {
     text-align: center;
     padding: 0 15px 50px;
 }
 
-body{
-    background-color: rgb(231,231,231);
+body {
+    background-color: rgb(231, 231, 231);
     font-family: "Nirmala UI";
     color: #3b4806;
 }
 
-h1{
+h1 {
     text-align: center;
 }
+
 .addform {
     display: flex;
     flex-direction: column;
     gap: 15px;
     font-size: 28px;
 }
-.tasks{
+
+.tasks {
     display: flex;
     list-style-type: disc;
     margin: 0px;
@@ -42,22 +44,25 @@ h1{
     margin: 10px;
 
 }
-.error{
+
+.error {
     color: red;
     font-size: large;
     border-bottom: 1px solid black;
 }
 
-ul{
+ul {
     margin: 0;
     padding: 0;
     list-style-type: none;
 }
 
 p {
-   text-wrap: normal;
+    text-wrap: normal;
     margin: 0px;
+    cursor: pointer;
 }
+
 input {
     padding: 10px 15px;
     border-radius: 10px;
@@ -73,6 +78,7 @@ button {
     margin-bottom: 15px;
     cursor: pointer;
 }
+
 #cols {
     display: flex;
     flex-direction: column;
@@ -102,6 +108,7 @@ button {
     justify-content: center;
     gap: 15px;
 }
+
 .flex-revers {
     display: flex;
     flex-direction: column-reverse;
@@ -109,5 +116,12 @@ button {
 }
 
 .p-title {
-    font-size:large;
+    font-size: large;
+}
+
+
+.checkbox {
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
 }

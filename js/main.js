@@ -12,10 +12,7 @@ Vue.component('cols', {
                     <li class="cards" v-for="card in column1"><p class="p-title">{{ card.title }}</p>
                         <ul>
                             <li class="tasks" v-for="t in card.subtasks" v-if="t.title != null">
-                                <input @click="newStatus1(card, t)"
-                                class="checkbox" type="checkbox"
-                                :disabled="t.completed">
-                                <p :class="{completed: t.completed}">{{t.title}}</p>
+                                <p @click="newStatus1(card, t)" :class="{completed: t.completed}">{{t.title}}</p>
                             </li>
                         </ul>
                     </li>
@@ -26,10 +23,8 @@ Vue.component('cols', {
                     <li class="cards" v-for="card in column2"><p class="p-title">{{ card.title }}</p>
                         <ul>
                             <li class="tasks" v-for="t in card.subtasks" v-if="t.title != null">
-                                <input @click="newStatus2(card, t)"
-                                class="checkbox" type="checkbox" 
-                                :disabled="t.completed">
-                                <p :class="{completed: t.completed}">{{t.title}}</p>
+                            <li class="tasks" v-for="t in card.subtasks" v-if="t.title != null">
+                                <p @click="newStatus2(card, t)" :class="{completed: t.completed}">{{t.title}}</p>
                             </li>
                         </ul>
                     </li>
@@ -64,14 +59,17 @@ Vue.component('cols', {
         }
     },
     mounted() {
-
-        eventBus.$on('card-submitted', card =>{
-              this.errors = []
-          if (this.column1.length < 3) {
-              this.column1.push(card)
-          }else{
-              this.errors.push("Вы не можете добавить новую заметку")
-          }
+        this.column1 = JSON.parse(localStorage.getItem('column1')) || [];
+        this.column2 = JSON.parse(localStorage.getItem('column2')) || [];
+        this.column3 = JSON.parse(localStorage.getItem('column3')) || [];
+        eventBus.$on('card-submitted', card => {
+            this.errors = []
+            if (this.column1.length < 3) {
+                this.column1.push(card)
+                this.saveColumn1();
+            } else {
+                this.errors.push("Нельзя добавить больше 3 записей.")
+            }
         })
     },
     methods: {
