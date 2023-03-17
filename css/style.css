@@ -125,3 +125,6 @@ button {
     z-index: -1;
     opacity: 0;
 }
+.disable{
+    background-color: red;
+}

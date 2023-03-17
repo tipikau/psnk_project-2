@@ -1,6 +1,11 @@
 let eventBus = new Vue()
 
 Vue.component('cols', {
+    props:{
+        check: {
+            type: Boolean,
+        }
+    },
     template:`
     <div id="cols">
     <div class="col-wrapper">
@@ -12,7 +17,7 @@ Vue.component('cols', {
                     <li class="cards" v-for="card in column1"><p class="p-title">{{ card.title }}</p>
                         <ul>
                             <li class="tasks" v-for="t in card.subtasks" v-if="t.title != null">
-                                <p @click="newStatus1(card, t)" :class="{completed: t.completed}">{{t.title}}</p>
+                                <p @click="newStatus1(card, t)" :class="{completed: t.completed}" >{{t.title}}</p>
                             </li>
                         </ul>
                     </li>
@@ -56,6 +61,7 @@ Vue.component('cols', {
             column2: [],
             column3: [],
             errors: [],
+            isDisabled: false,
         }
     },
     mounted() {
@@ -91,16 +97,15 @@ Vue.component('cols', {
             if (card.status /count * 100 >= 50 && this.column2.length < 5) {
                 this.column2.push(card)
                 this.column1.splice(this.column1.indexOf(card), 1)
+                if(this.column2.length === 5){
+                    this.isDisabled = true
+                }
             } else if (this.column2.length === 5) {
                 this.errors.push("Вам нужно заполнить карту во втором столбце, чтобы добавить новую карту в первый столбец.")
-                if (this.column1.length > 0) {
-                    this.column1.forEach(item => {
-                        item.subtasks.forEach(item => {
-                            item.completed = true;
-                        })
-                    })
-                }
+            } else if (this.column1 >= 50 ){
+
             }
+
         },
 
 
@@ -163,7 +168,8 @@ Vue.component('cols', {
             errors: {
                 type: Array,
                 required: false
-            }
+            },
+
         },
     },
 
