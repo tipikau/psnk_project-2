@@ -1,23 +1,26 @@
 let eventBus = new Vue()
 
 Vue.component('cols', {
-    props:{
+    props: {
         check: {
             type: Boolean,
         }
     },
-    template:`
-    <div id="cols">
+    template: `
+    <div id="cols" v-if="isComponentActive">
     <div class="col-wrapper">
     <h2 class="error" v-for="error in errors">{{error}}</h2>
         <newcard></newcard>
-        <div class="cols-wrapper">
-            <div class="col">
+        <div class="cols-wrapper ">
+            <div class="col" :class="{ 'col-red': gabellaRed }">
                 <ul>
                     <li class="cards" v-for="card in column1"><p class="p-title">{{ card.title }}</p>
                         <ul>
-                            <li class="tasks" v-for="t in card.subtasks" v-if="t.title != null">
-                                <p @click="newStatus1(card, t)" :class="{completed: t.completed}" >{{t.title}}</p>
+                            <li class="tasks" v-for="(t, index) in card.subtasks" :key="index" v-if="t.title != null">
+                               
+                                <input  @click="newStatus1(card, t)" class="checkbox" 
+                                type="checkbox" :disabled="t.completed || gabellaRed" :checked="t.completed">
+                                <p>{{t.title}}</p>
                             </li>
                         </ul>
                     </li>
@@ -28,9 +31,11 @@ Vue.component('cols', {
                     <li class="cards" v-for="card in column2"><p class="p-title">{{ card.title }}</p>
                         <ul>
                             <li class="tasks" v-for="t in card.subtasks" v-if="t.title != null">
-                            <li class="tasks" v-for="t in card.subtasks" v-if="t.title != null">
-                                <p @click="newStatus2(card, t)" :class="{completed: t.completed}">{{t.title}}</p>
-                            </li>
+                                <input @click="newStatus2(card, t)"
+                                class="checkbox" type="checkbox" 
+                                :disabled="t.completed" :checked="t.completed">
+                                <p  >{{t.title}}</p>
+                            
                         </ul>
                     </li>
                 </ul>
@@ -40,10 +45,10 @@ Vue.component('cols', {
                     <li class="cards" v-for="card in column3"><p class="p-title">{{ card.title }}</p><div class="flex-revers"><p>{{ card.date }}</p>
                     <ul>
                             <li class="tasks" v-for="t in card.subtasks" v-if="t.title != null">
-                                <input @click="t.completed = true"
+                                <input checked
                                 class="checkbox" type="checkbox" 
                                 :disabled="t.completed">
-                                <p :class="{completed: t.completed}">{{t.title}}</p>
+                                <p>{{t.title}}</p>
                                 
                             </li>
                         </ul>
@@ -62,6 +67,8 @@ Vue.component('cols', {
             column3: [],
             errors: [],
             isDisabled: false,
+            gabellaRed: false,
+            isComponentActive: true,
         }
     },
     mounted() {
@@ -80,10 +87,15 @@ Vue.component('cols', {
     },
     methods: {
         newStatus1(card, t) {
-            t.completed = true
+            console.log(this.gabellaRed)
+            console.log(`${card.title}`, t)
+
+            t.completed = !t.completed
             let count = 0
+
             card.status = 0
             this.errors = []
+
             for (let i = 0; i < 5; ++i) {
                 if (card.subtasks[i].title != null) {
                     count++;
@@ -94,27 +106,69 @@ Vue.component('cols', {
                     card.status++
                 }
             }
-            if (card.status /count * 100 >= 50 && this.column2.length < 5) {
+            if (card.status / count * 100 === 100) {
+                this.gabellaRed = false
+                this.column3.push(card)
+                this.column1.splice(this.column1.indexOf(card), 1)
+                card.date = new Date()
+                this.reloadComponent()
+            } else if (card.status / count * 100 >= 50 && this.column2.length < 5) {
                 this.column2.push(card)
                 this.column1.splice(this.column1.indexOf(card), 1)
-                if(this.column2.length === 5){
+                if (this.column2.length === 5) {
                     this.isDisabled = true
                 }
+                this.reloadComponent()
             } else if (this.column2.length === 5) {
+                if (card.status / count * 100 >= 50) {
+                    this.gabellaRed = true
+                }
                 this.errors.push("Вам нужно заполнить карту во втором столбце, чтобы добавить новую карту в первый столбец.")
-            } else if (this.column1 >= 50 ){
-
             }
+
+            for (let c of this.column1) {
+                console.log('pp', c)
+                for (let punk of c.subtasks) {
+                    console.log('wwwwwww', punk.title)
+                    console.log('wwwwwww', punk.completed)
+                    if (!punk.completed) {
+                        punk.completed = false
+                    }
+                }
+            }
+            this.isChecked()
 
         },
 
+        updateCheckboxStatus(card) {
+            card.subtasks.forEach(t => {
+                if (!t.completed) { // Проверяем, не заблокирован ли чекбокс
+                    t.completed = false; // Снимаем отметку с чекбокса
+                }
+            });
+        },
+
+        reloadComponent() {
+            this.isComponentActive = false;
+
+            function gg() {
+                return 0
+            }
+
+            setTimeout(gg, 1000)
+            this.$nextTick(() => {
+                this.isComponentActive = true;
+            });
+        },
 
         newStatus2(card, t) {
             t.completed = true
             let count = 0
             card.status = 0
+
+
             for (let i = 0; i < 5; i++) {
-                if (card.subtasks[i].title !=null) {
+                if (card.subtasks[i].title != null) {
                     count++
                 }
             }
@@ -124,24 +178,19 @@ Vue.component('cols', {
                     card.status++
                 }
             }
-            if (card.status/count*100 === 100) {
+            if (card.status / count * 100 === 100) {
+                this.gabellaRed = false
                 this.column3.push(card)
                 this.column2.splice(this.column2.indexOf(card), 1)
                 card.date = new Date()
             }
-            if(this.column2.length < 5) {
-                if(this.column1.length > 0) {
-                    this.column1.forEach(item => {
-                        item.subtasks.forEach(item => {
-                            item.completed = false;
-                        })
-                    })
-                }
-            }
+
         }
     },
     computed: {
-
+        isChecked() {
+            return !this.t.completed && !this.gabellaRed;
+        }
     },
     props: {
         card: {
@@ -175,7 +224,7 @@ Vue.component('cols', {
 
 })
 
-Vue.component('newcard',{
+Vue.component('newcard', {
     template: `
     <form class="addform" @submit.prevent="onSubmit">
         <p>
@@ -206,10 +255,10 @@ Vue.component('newcard',{
             let card = {
                 title: this.title,
                 subtasks: [{title: this.subtask1, completed: false},
-                        {title: this.subtask2, completed: false},
-                        {title: this.subtask3, completed: false},
-                        {title: this.subtask4, completed: false},
-                        {title: this.subtask5, completed: false}],
+                    {title: this.subtask2, completed: false},
+                    {title: this.subtask3, completed: false},
+                    {title: this.subtask4, completed: false},
+                    {title: this.subtask5, completed: false}],
                 date: null,
                 status: 0
             }
