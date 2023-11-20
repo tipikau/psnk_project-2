@@ -35,9 +35,10 @@ Vue.component('cols', {
                                 class="checkbox" type="checkbox" 
                                 :disabled="t.completed" :checked="t.completed">
                                 <p  >{{t.title}}</p>
-                            
+                            </li>
                         </ul>
                     </li>
+                   
                 </ul>
             </div>
             <div class="col">
